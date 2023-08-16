@@ -5,7 +5,7 @@ import { SlOptionsVertical } from "react-icons/sl";
 
 function ChatListHeader() {
   return (
-    <div className="bg-input-background p-4 flex items-center">
+    <div className="bg-input-background p-4 flex items-center h-16">
       <Avatar type={"sm"} src={"/avatars/4.png"}></Avatar>
       <div className="ml-auto flex items-center gap-1">
         <MdMessage />

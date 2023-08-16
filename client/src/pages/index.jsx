@@ -1,4 +1,5 @@
 import React from "react";
+import Chat from "@/components/Chat/Chat";
 import ChatList from "@/components/Chatlist/ChatList";
 
 function index() {
@@ -8,7 +9,7 @@ function index() {
         <ChatList/>
       </div>
       <div className="flex-1">
-        chat zone
+        <Chat/>
       </div>
     </div>
   </div>;

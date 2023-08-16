@@ -1,7 +1,14 @@
 import React from "react";
+import Avatar from "../common/Avatar";
 
 function ChatHeader() {
-  return <div>ChatHeader</div>;
+  return <div className="bg-input-background p-3 border-l border-conversation-border h-16 flex items-center">
+    <Avatar type={"sm"} src={"/avatars/3.png"}/>
+    <div className="flex flex-col justify-between pl-4 gap-2">
+      <span>ABC</span>
+      <span className="text-secondary line-clamp-1 text-sm">Online/Offline</span>
+    </div>
+  </div>;
 }
 
 export default ChatHeader;
