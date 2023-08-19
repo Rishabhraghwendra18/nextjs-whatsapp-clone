@@ -50,3 +50,40 @@ export async function createProfile(req,res,next){
         })
     }
 }
+export async function getUser(req,res) {
+    const {email} = req.body;
+    if(!email){
+        res.json({
+            message:"Please provide email id for user to search",
+            status:400
+        });
+        return;
+    }
+    try {
+        const neo4j = getNeo4JInstance();
+        const {records} = await neo4j.executeQuery(
+            'MATCH (user:USER {email:$email}) RETURN user',
+            {email}
+        );
+        if(!records?.length){
+            res.json({
+                message:"User not found",
+                status:404
+            });
+            return;
+        }
+        let user = records[0]?.get('user')?.properties;
+        res.json({
+            message:"User found",
+            status:200,
+            user
+        })
+    } catch (error) {
+        console.log("Error while searching user: ",error);
+        res.json({
+            message:"User not found",
+            status:404
+        })
+    }
+
+}

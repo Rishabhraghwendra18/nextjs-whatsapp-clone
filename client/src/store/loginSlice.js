@@ -7,7 +7,6 @@ export const loginSlice = createSlice({
   },
   reducers: {
     setLoggedInUser: (state, action) => {
-        console.log("logged in user: ",action);
       state.emailId = action.payload;
     },
   },
