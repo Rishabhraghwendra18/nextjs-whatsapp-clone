@@ -10,7 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
-  id Int @id @default(autoincrement())
-  email String @unique
+
+model Message{
+  id String @id @default(uuid())
+  message String
+  receivedOrNot Boolean
+  createdAt DateTime @default(now())
+  senderId String
+  receiverId String
 }

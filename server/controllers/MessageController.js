@@ -1,3 +1,4 @@
+import getPrismaInstance from "../utils/PrismaClient.js";
 import {getNeo4JInstance} from "../utils/Neo4j.js";
 
 // this function checks whether the user (from) has previously contacted another user (to)
@@ -25,11 +26,58 @@ export async function sendMessage(req,res) {
         if(!doesExist){
             await createRelationShipBetweenUsers(from,to);
         }
-
+        const prismaClient = getPrismaInstance();
+        const sentMessage = await prismaClient.message.create({
+            data:{
+                message,
+                receivedOrNot:false,
+                senderId:from,
+                receiverId:to
+            }
+        });
+        console.log("received msg: ",sentMessage);
+        res.json({
+            message:"Message Sent Successfully!",
+            status:200
+        })
     } catch (error) {
         console.log("Error while sending message: ",error);
         res.json({
             message:"Error while sending message",
+            status:500
+        })
+    }
+}
+export async function getMessage(req,res) {
+    const {from,to} = req.body;
+    if(!from || !to){
+        res.json({
+            message:"from or to field missing",
+            status:400
+        })
+    }
+    try {
+        const prismaClient = getPrismaInstance();
+        const messages = await prismaClient.message.findMany({
+            where:{
+                OR:[
+                    {senderId:from,receiverId:to},
+                    {receiverId:from,senderId:to}
+                ]
+            },
+            orderBy:{
+                createdAt:"asc",
+            }
+        })
+        console.log("messages: ",messages);
+        res.json({
+            messages,
+            status:200
+        })
+    } catch (error) {
+        console.log("Error while retreiving message: ",error);
+        res.json({
+            message:"Error while retreiving message",
             status:500
         })
     }
