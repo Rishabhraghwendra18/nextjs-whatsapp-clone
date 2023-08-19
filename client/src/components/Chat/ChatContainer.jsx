@@ -1,6 +1,8 @@
 import React from "react";
+import { useSelector, useDispatch } from 'react-redux'
 
 function ChatContainer() {
+
   const dummyMessages = ["hello","hi","bye","ok","good"]
   return <div className="overflow-auto custom-scrollbar relative w-full flex-grow h-full">
     <div className="bg-chat-background bg-fix h-full w-full absolute top-0 opacity-5 z-0"></div>

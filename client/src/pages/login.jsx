@@ -2,6 +2,8 @@ import React from "react";
 import Image from "next/image";
 import { FcGoogle } from "react-icons/fc";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useSelector, useDispatch } from 'react-redux'
+import {setLoggedInUser} from "../store/loginSlice";
 import { firebaseAuth } from "../utils/FirebaseConfig";
 import axios from "axios";
 import { CHECK_USER_ROUTE } from "@/utils/ApiRoutes";
@@ -9,9 +11,12 @@ import { useRouter } from "next/router";
 
 function login() {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const handleLogin = async ()=>{
     const provider = new GoogleAuthProvider();
     const {user :{displayName:name,email,photoURL:profileImage}} = await signInWithPopup(firebaseAuth,provider);
+    dispatch(setLoggedInUser(email))
     try {
       if(email){
         const {data} = await axios.post(CHECK_USER_ROUTE,{email});
