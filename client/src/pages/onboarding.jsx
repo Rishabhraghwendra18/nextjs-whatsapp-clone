@@ -9,7 +9,7 @@ function onboarding() {
   const router = useRouter();
   const [displayName, setDisplayName] = useState('');
   const [userEmailId, setUserEmailId] = useState('');
-  const [profileImage, setProfileImage] = useState('/default_avatar.png');
+  const [profileImage, setProfileImage] = useState('/avatars/1.png');
 
   const handleClickCreateProfile = async ()=>{
     if(!displayName || !userEmailId){
@@ -18,7 +18,9 @@ function onboarding() {
     }
     let payload ={
       name:displayName,
-      email:userEmailId
+      email:userEmailId,
+      image:profileImage,
+      status:'Online'
     }
     try {
       const response = await createProfile(payload);

@@ -8,3 +8,6 @@ export const checkUser = async (payload)=>{
 export const createProfile = async (payload)=>{
     return await axios.post(HOST+'/api/auth/create-profile',payload)
 }
+export const getAllContacts = async (payload)=>{
+    return await axios.post(HOST+'/api/auth/get-user-contacts',payload);
+}

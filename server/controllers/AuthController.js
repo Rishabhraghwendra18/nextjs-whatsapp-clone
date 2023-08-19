@@ -26,7 +26,7 @@ export async function checkUser(req,res,next){
 
 export async function createProfile(req,res,next){
     try {
-        const {email,name} = req.body;
+        const {email,name,image,status} = req.body;
         if(!email || !name){
             res.json({
                 messagge:"Please provide email or name",
@@ -35,8 +35,8 @@ export async function createProfile(req,res,next){
         }
         const neo4j = getNeo4JInstance();
         await neo4j.executeQuery(
-            'CREATE (:USER {name: $name,email:$email})',
-            {name,email}
+            'CREATE (:USER {name: $name,email:$email,image:$image,status:$status})',
+            {name,email,image,status}
         )
         res.json({
             message:"User profile created successfully",
@@ -85,5 +85,32 @@ export async function getUser(req,res) {
             status:404
         })
     }
-
+}
+export const getUserContacts = async (req,res)=>{
+    const {email} = req.body;
+    if(!email){
+        res.json({
+            message:"Please provide email of user",
+            status:400
+        });
+        return;
+    }
+    try {
+        const neo4j = getNeo4JInstance();
+        const {records} = await neo4j.executeQuery(
+            'MATCH users=(:USER {email:$email})-[:CONTACTED]->(:USER) RETURN users',
+            {email}
+        );
+        let users = records?.map(user=>user?.get('users')['end']['properties']);
+        res.json({
+            users:users,
+            status:200
+        })
+    } catch (error) {
+        console.log("Error while getting users: ",error);
+        res.json({
+            message:"Error while getting users",
+            status:500
+        })
+    }
 }
