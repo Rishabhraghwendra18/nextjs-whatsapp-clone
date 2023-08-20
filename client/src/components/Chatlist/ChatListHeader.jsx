@@ -8,7 +8,7 @@ function ChatListHeader({setIsNewChat}) {
     <div className="bg-input-background p-4 flex items-center h-16">
       <Avatar type={"sm"} src={"/avatars/4.png"}></Avatar>
       <div className="ml-auto flex items-center gap-1">
-        <MdMessage onClick={()=>setIsNewChat(prev=>!prev)} style={{cursor:'pointer'}}/>
+        <MdMessage onClick={()=>setIsNewChat(prev=>!prev)} className="cursor-pointer"/>
         <SlOptionsVertical />
       </div>
     </div>

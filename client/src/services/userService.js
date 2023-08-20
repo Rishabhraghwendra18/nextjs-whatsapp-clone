@@ -11,3 +11,6 @@ export const createProfile = async (payload)=>{
 export const getAllContacts = async (payload)=>{
     return await axios.post(HOST+'/api/auth/get-user-contacts',payload);
 }
+export const getUser = async (payload)=>{
+    return await axios.post(HOST+'/api/auth/get-user',payload)
+}
