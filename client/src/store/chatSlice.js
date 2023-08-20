@@ -3,13 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 export const chatSlice = createSlice({
     name:"chatSlice",
     initialState:{
-        selectedChatEmail:"",
-        userName:""
+        selectedChatUser:{}
     },
     reducers:{
         setSelectedChatUser:(state,action)=>{
-            state.selectedChatEmail=action.payload?.email;
-            state.userName=action.payload?.name;
+            state.selectedChatUser=action.payload;
         }
     }
 });

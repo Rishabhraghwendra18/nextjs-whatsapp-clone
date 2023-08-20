@@ -3,7 +3,7 @@ import Avatar from "../common/Avatar";
 
 function List({ name, profilePic, message,email,onClick }) {
   return (
-    <div className="flex items-center hover:bg-input-background mt-1 p-4" onClick={()=>onClick({email,name})}>
+    <div className="flex items-center hover:bg-input-background mt-1 p-4" onClick={()=>onClick()}>
       <Avatar type={"lg"} src={profilePic} />
       <div className="flex flex-col justify-between pl-4">
         <span>{name}</span>

@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import ChatListHeader from "./ChatListHeader";
 import SearchBar from "./SearchBar";
 import ChatLIstItem from "./ChatLIstItem";
+import ContactsList from "./ContactsList";
 
 function ChatList() {
-  return <div>
-    <ChatListHeader/>
-    <SearchBar/>
-    <ChatLIstItem/>
-  </div>;
+  const [isNewChat, setIsNewChat] = useState(false);
+  return (
+    <div>
+      <ChatListHeader setIsNewChat={setIsNewChat} />
+      {isNewChat ? <ContactsList /> : (
+        <>
+        <SearchBar />
+        <ChatLIstItem />
+        </>
+      )}
+    </div>
+  );
 }
 
 export default ChatList;

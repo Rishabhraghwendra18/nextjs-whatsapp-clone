@@ -83,6 +83,7 @@ function ChatLIstItem() {
       if(response.data.status === 200){
         console.log(response.data.users);
         setAllUserContacts(response.data.users)
+        dispatch(setSelectedChatUser(response.data.users[0]));
       }
       else{
         console.log("Error while fetching contacts: ",response.data)
@@ -92,8 +93,8 @@ function ChatLIstItem() {
     }
   }
   return <div className="bg-transparent max-h-screen overflow-auto">
-    {allUserContacts.map((e,index)=>(
-      <List key={index} profilePic={e?.image || '/avatars/1.png'} name={e.name} message={''} email={e.email} onClick={(e)=>dispatch(setSelectedChatUser(e))}/>
+    {allUserContacts.map((user,index)=>(
+      <List key={index} profilePic={user?.image || '/avatars/1.png'} name={user.name} message={''} email={user.email} onClick={()=>dispatch(setSelectedChatUser(user))}/>
     ))}
   </div>;
 }

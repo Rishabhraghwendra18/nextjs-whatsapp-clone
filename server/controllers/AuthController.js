@@ -98,7 +98,7 @@ export const getUserContacts = async (req,res)=>{
     try {
         const neo4j = getNeo4JInstance();
         const {records} = await neo4j.executeQuery(
-            'MATCH users=(:USER {email:$email})-[:CONTACTED]->(:USER) RETURN users',
+            'MATCH users=(:USER {email:$email})-[:CONTACTED]-(:USER) RETURN users',
             {email}
         );
         let users = records?.map(user=>user?.get('users')['end']['properties']);
@@ -113,4 +113,7 @@ export const getUserContacts = async (req,res)=>{
             status:500
         })
     }
+}
+export const searchUser = async (req,res)=>{
+    
 }
