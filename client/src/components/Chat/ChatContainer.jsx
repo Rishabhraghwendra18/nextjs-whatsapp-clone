@@ -6,7 +6,6 @@ function ChatContainer() {
   const loggedInUserEmail = useSelector(state=>state.loggedInUser.emailId);
   const selectedChatUser = useSelector(state=>state.selectedChatUser.selectedChatUser);
   const [userAllMessages, setUserAllMessages] = useState([]);
-  console.log("selectedChat user:",selectedChatUser)
 
   useEffect(()=>{
     getUserAllMessage();
@@ -19,7 +18,7 @@ function ChatContainer() {
     try {
       const response = await getMessage(payload);      
       if(response.data.status === 200){
-        console.log(response.data);
+        console.log("user messages",response.data);
         setUserAllMessages(response.data.messages);
       }
       else{
@@ -36,9 +35,9 @@ function ChatContainer() {
       <div className="flex flex-col justify-end gap-1 w-full overflow-auto">
         {userAllMessages.map((message,index)=>(
           <div key={index}
-          className="flex justify-start"
+          className={`flex ${message.senderId === loggedInUserEmail ? "justify-end":"justify-start"}`}
           >
-              <div className="text-white px-2 py-[5px] text-sm rounded-md flex gap-2 items-end max-w-[45%] bg-outgoing-background">
+              <div className={`text-white px-2 py-[5px] text-sm rounded-md flex gap-2 items-end max-w-[45%] ${message.senderId === selectedChatUser?.email ? "bg-incoming-background":"bg-outgoing-background"} `}>
                   <span className="break-all">{message?.message}</span>
               </div>
           </div>
