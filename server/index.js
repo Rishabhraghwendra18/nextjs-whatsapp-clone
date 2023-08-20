@@ -1,4 +1,5 @@
 import express from "express";
+import { Server } from "socket.io";
 import dotenv from "dotenv";
 import cors from "cors";
 import AuthRoutes from "./routes/AuthRoutes.js";
@@ -14,4 +15,17 @@ app.use("/api/message",MessageRoutes);
 
 const server = app.listen(process.env.PORT,()=>{
     console.log(`Server Started on port ${process.env.PORT}`);
+})
+
+const io = new Server(server,{
+    cors:{
+        origin:'http://localhost:3000'
+    }
+});
+
+io.on("Connection",(socket)=>{
+    console.log("a new user connected!! ",socket);
+    socket.on("hello",(data)=>{
+        console.log("socket hello invoked: ",data)
+    })
 })

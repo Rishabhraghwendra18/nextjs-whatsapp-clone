@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import Image from "next/image";
 import { FcGoogle } from "react-icons/fc";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
@@ -9,11 +9,18 @@ import axios from "axios";
 import { CHECK_USER_ROUTE } from "@/utils/ApiRoutes";
 import {checkUser} from "../services/userService";
 import { useRouter } from "next/router";
+import {io} from "socket.io-client";
 
 function login() {
   const router = useRouter();
   const dispatch = useDispatch();
 
+  useEffect(()=>{
+    const ioClient = io("http://localhost:3005");
+    console.log("emiting!!")
+    ioClient.emit("hello","yes")
+    console.log("emitted")
+  },[])
   const handleLogin = async ()=>{
     const provider = new GoogleAuthProvider();
     const {user :{displayName:name,email,photoURL:profileImage}} = await signInWithPopup(firebaseAuth,provider);

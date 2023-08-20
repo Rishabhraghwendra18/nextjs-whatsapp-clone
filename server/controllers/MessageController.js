@@ -16,7 +16,6 @@ async function createRelationShipBetweenUsers(from,to) {
         'MATCH (from:USER {email:$from}), (to:USER {email:$to}) CREATE (from)-[:CONTACTED]->(to)',
         {from,to}
     );
-    console.log(records);
     return records;
 }
 export async function sendMessage(req,res) {
@@ -35,7 +34,6 @@ export async function sendMessage(req,res) {
                 receiverId:to
             }
         });
-        console.log("received msg: ",sentMessage);
         res.json({
             message:"Message Sent Successfully!",
             status:200
@@ -70,7 +68,6 @@ export async function getMessage(req,res) {
                 createdAt:"asc",
             }
         })
-        console.log("messages: ",messages);
         res.json({
             messages,
             status:200
