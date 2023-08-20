@@ -37,7 +37,7 @@ function ChatContainer() {
           <div key={index}
           className={`flex ${message.senderId === loggedInUserEmail ? "justify-end":"justify-start"}`}
           >
-              <div className={`text-white px-2 py-[5px] text-sm rounded-md flex gap-2 items-end max-w-[45%] ${message.senderId === selectedChatUser?.email ? "bg-incoming-background":"bg-outgoing-background"} `}>
+              <div className={`text-white px-2 py-[5px] text-sm rounded-md flex gap-2 items-end max-w-[45%] ${message.senderId === selectedChatUser?.email ? "bg-input-background":"bg-outgoing-background"} `}>
                   <span className="break-all">{message?.message}</span>
               </div>
           </div>
