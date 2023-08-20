@@ -54,7 +54,8 @@ export async function getMessage(req,res) {
         res.json({
             message:"from or to field missing",
             status:400
-        })
+        });
+        return;
     }
     try {
         const prismaClient = getPrismaInstance();

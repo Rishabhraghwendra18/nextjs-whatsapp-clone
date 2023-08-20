@@ -76,14 +76,16 @@ function ChatLIstItem() {
   },[])
   const getUserAllContactsList = async ()=>{
     let payload={
-      email:'beast@gmail.com'
+      email:loggedInUser
     }
     try {
       const response = await getAllContacts(payload);
       if(response.data.status === 200){
         console.log(response.data.users);
         setAllUserContacts(response.data.users)
-        dispatch(setSelectedChatUser(response.data.users[0]));
+        if(response.data.users?.length > 0){
+          dispatch(setSelectedChatUser(response.data.users[0]));
+        }
       }
       else{
         console.log("Error while fetching contacts: ",response.data)

@@ -27,7 +27,7 @@ export async function createProfile(req, res, next) {
   try {
     const { email, name, image, status } = req.body;
     if (!email || !name) {
-      res.json({
+      return res.json({
         messagge: "Please provide email or name",
         status: 400,
       });
@@ -52,7 +52,7 @@ export async function createProfile(req, res, next) {
 export async function getUser(req, res) {
   const { email } = req.body;
   if (!email) {
-    res.json({
+    return res.json({
       message: "Please provide email id for user to search",
       status: 400,
     });
@@ -88,7 +88,7 @@ export async function getUser(req, res) {
 export const getUserContacts = async (req, res) => {
   const { email } = req.body;
   if (!email) {
-    res.json({
+    return res.json({
       message: "Please provide email of user",
       status: 400,
     });

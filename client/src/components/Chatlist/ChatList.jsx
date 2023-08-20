@@ -11,7 +11,7 @@ function ChatList() {
       <ChatListHeader setIsNewChat={setIsNewChat} />
       {isNewChat ? <ContactsList /> : (
         <>
-        <SearchBar />
+        <SearchBar placeholder={"Search Chat"}/>
         <ChatLIstItem />
         </>
       )}

@@ -4,15 +4,17 @@ import { getMessage } from "../../services/messageService";
 
 function ChatContainer() {
   const loggedInUserEmail = useSelector(state=>state.loggedInUser.emailId);
+  const selectedChatUser = useSelector(state=>state.selectedChatUser.selectedChatUser);
   const [userAllMessages, setUserAllMessages] = useState([]);
+  console.log("selectedChat user:",selectedChatUser)
 
   useEffect(()=>{
     getUserAllMessage();
-  },[])
+  },[selectedChatUser])
   const getUserAllMessage = async ()=>{
     let payload = {
-      from:"abcd@gmail.com",
-      to:"beast@gmail.com"
+      from:loggedInUserEmail,
+      to:selectedChatUser?.email
     }
     try {
       const response = await getMessage(payload);      
