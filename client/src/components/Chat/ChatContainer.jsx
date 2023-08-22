@@ -1,33 +1,11 @@
-import React,{useState,useEffect} from "react";
-import { useSelector, useDispatch } from 'react-redux'
-import { getMessage } from "../../services/messageService";
+import React from "react";
+import { useSelector } from 'react-redux';
 
-function ChatContainer() {
+function ChatContainer({userAllMessages}) {
   const loggedInUserEmail = useSelector(state=>state.loggedInUser.emailId);
   const selectedChatUser = useSelector(state=>state.selectedChatUser.selectedChatUser);
-  const [userAllMessages, setUserAllMessages] = useState([]);
-
-  useEffect(()=>{
-    getUserAllMessage();
-  },[selectedChatUser])
-  const getUserAllMessage = async ()=>{
-    let payload = {
-      from:loggedInUserEmail,
-      to:selectedChatUser?.email
-    }
-    try {
-      const response = await getMessage(payload);      
-      if(response.data.status === 200){
-        console.log("user messages",response.data);
-        setUserAllMessages(response.data.messages);
-      }
-      else{
-        console.log("Error while getting user messages: ",response.data);
-      }
-    } catch (error) {
-       console.log("Error while getting user messages: ",error);
-    }
-  }
+  const socket = useSelector(state=>state.socket.socket);
+ 
   return <div className="overflow-auto custom-scrollbar relative w-full flex-grow h-full">
     <div className="bg-chat-background bg-fix h-full w-full absolute top-0 opacity-5 z-0"></div>
     <div className="mx-10 my-6  z-40">

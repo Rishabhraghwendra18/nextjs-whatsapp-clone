@@ -10,16 +10,14 @@ import { CHECK_USER_ROUTE } from "@/utils/ApiRoutes";
 import {checkUser} from "../services/userService";
 import { useRouter } from "next/router";
 import {io} from "socket.io-client";
+import { addSocket } from "../store/socketSlice";
 
 function login() {
   const router = useRouter();
   const dispatch = useDispatch();
-
   useEffect(()=>{
-    const ioClient = io("http://localhost:3005");
-    console.log("emiting!!")
-    ioClient.emit("hello","yes")
-    console.log("emitted")
+    const socket = io(process.env.NEXT_PUBLIC_SERVER_HOST);
+    dispatch(addSocket(socket));
   },[])
   const handleLogin = async ()=>{
     const provider = new GoogleAuthProvider();

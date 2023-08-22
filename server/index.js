@@ -23,9 +23,23 @@ const io = new Server(server,{
     }
 });
 
-io.on("Connection",(socket)=>{
-    console.log("a new user connected!! ",socket);
-    socket.on("hello",(data)=>{
-        console.log("socket hello invoked: ",data)
+const onlineUsers = new Map();
+
+io.on("connection",(socket)=>{
+    socket.on("add-user",(userId)=>{
+        onlineUsers.set(userId,socket.id);
+    });
+    socket.on("send-msg",async (data)=>{
+        const {from,to,message}=data;
+        console.log("data: ",data);
+        const sendUserSocket = onlineUsers.get(to);
+        console.log("sendUserSocket: ",sendUserSocket)
+        if(sendUserSocket){
+            socket.to(sendUserSocket).emit('msg-receieved',{
+                senderId:from,
+                receiverId:to,
+                message
+            })
+        }
     })
 })

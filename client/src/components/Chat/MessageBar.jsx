@@ -3,9 +3,10 @@ import { useDispatch,useSelector } from "react-redux";
 import {IoSend} from 'react-icons/io5';
 import { sendMessage } from "../../services/messageService";
 
-function MessageBar() {
+function MessageBar({setUserAllMessages}) {
   const selectedChatUser = useSelector(state=>state.selectedChatUser.selectedChatUser.email);
   const loggedInUser = useSelector(state=>state.loggedInUser.emailId);
+  const socket = useSelector(state=>state.socket.socket);
   const [userChatMessage, setUserChatMessage] = useState('');
 
   const handleClickSend = async ()=>{
@@ -22,7 +23,12 @@ function MessageBar() {
     try {
       const response = await sendMessage(payload);
       if(response.data.status){
-        console.log("response data: ",response.data)
+        setUserAllMessages(prev=>[...prev,{
+          message:userChatMessage,
+          senderId:loggedInUser,
+          receiverId:selectedChatUser
+        }]);
+        socket.emit("send-msg",payload);
       }else{
         console.log("Error while sending message: ",response.data);
       }
