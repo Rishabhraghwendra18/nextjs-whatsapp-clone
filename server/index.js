@@ -24,6 +24,7 @@ const io = new Server(server,{
 });
 
 const onlineUsers = new Map();
+global.onlineUsers = onlineUsers;
 
 io.on("connection",(socket)=>{
     socket.on("add-user",(userId)=>{

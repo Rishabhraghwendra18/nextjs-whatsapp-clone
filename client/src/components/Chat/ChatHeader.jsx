@@ -8,7 +8,7 @@ function ChatHeader() {
     <Avatar type={"sm"} src={chatUser?.image || "/avatars/3.png"}/>
     <div className="flex flex-col justify-between pl-4 gap-2">
       <span>{chatUser?.name}</span>
-      <span className="text-secondary line-clamp-1 text-sm">Online/Offline</span>
+      <span className="text-secondary line-clamp-1 text-sm">{chatUser?.status}</span>
     </div>
   </div>;
 }

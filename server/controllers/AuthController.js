@@ -101,6 +101,12 @@ export const getUserContacts = async (req, res) => {
       { email }
     );
     let users = records?.map((user) => user?.get("users")["end"]["properties"]);
+    users = users?.map(user=>{
+      return {
+        ...user,
+        status:global.onlineUsers.get(user?.email) ? "Online":"Offline"
+      }
+    })
     res.json({
       users: users,
       status: 200,
