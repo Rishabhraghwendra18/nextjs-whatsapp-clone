@@ -33,7 +33,7 @@ function ContactsList() {
   return <div>
     <SearchBar onClickSearch={onhandleClickSearch} onChange={e=>setUserEmailInput(e)} placeholder={"Start New Chat"}/>
     {usersList?.map((user,index)=>(
-      <List key={index} profilePic={'/avatars/1.png'} name={user?.name} message={''} email={user?.email} onClick={(e)=>dispatch(setSelectedChatUser(user))}/>
+      <List key={index} profilePic={user?.image||'/avatars/1.png'} name={user?.name} message={''} email={user?.email} onClick={(e)=>dispatch(setSelectedChatUser(user))}/>
     ))}
   </div>;
 }

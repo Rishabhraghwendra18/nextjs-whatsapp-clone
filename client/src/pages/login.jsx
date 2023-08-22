@@ -29,16 +29,19 @@ function login() {
     // const {user :{displayName:name,email,photoURL:profileImage}} = await signInWithPopup(firebaseAuth,provider);
     dispatch(setLoggedInUser(userEmailId));
     let payload = {
-     userEmailId
+     email:userEmailId
     }
     try {
       if(userEmailId){
         const {data} = await checkUser(payload);
-        if(data.status){
+        if(!data.status){
           router.push('/onboarding');
         }else{
           router.push('/');
         }
+      }
+      else{
+        console.log("Type email to login")
       }
     } catch (error) {
       console.log("error while logging in: ",error);
