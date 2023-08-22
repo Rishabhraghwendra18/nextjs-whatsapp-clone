@@ -28,6 +28,7 @@ function MessageBar({setUserAllMessages}) {
           senderId:loggedInUser,
           receiverId:selectedChatUser
         }]);
+        setUserChatMessage('');
         socket.emit("send-msg",payload);
       }else{
         console.log("Error while sending message: ",response.data);
@@ -41,6 +42,7 @@ function MessageBar({setUserAllMessages}) {
         <input
           placeholder="Search or Start new Chat"
           className="flex-1 bg-transparent text-white focus:outline-none text-sm border-2 rounded-lg p-2 border-conversation-border"
+          value={userChatMessage}
           onChange={(e)=>setUserChatMessage(e.target.value)}
         />
         <IoSend className="cursor-pointer" onClick={handleClickSend}/>
