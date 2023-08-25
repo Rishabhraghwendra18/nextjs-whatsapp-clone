@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
+import sha256 from "sha256";
 import Avatar from "@/components/common/Avatar";
 import Input from "@/components/common/Input";
 import React,{useState} from "react";
@@ -9,6 +10,7 @@ function onboarding() {
   const router = useRouter();
   const [displayName, setDisplayName] = useState('');
   const [userEmailId, setUserEmailId] = useState('');
+  const [userPassword, setUserPassword] = useState('');
   const [profileImage, setProfileImage] = useState('/avatars/1.png');
 
   const handleClickCreateProfile = async ()=>{
@@ -19,6 +21,7 @@ function onboarding() {
     let payload ={
       name:displayName,
       email:userEmailId,
+      password:sha256(userPassword),
       image:profileImage,
       status:'Online'
     }
@@ -48,6 +51,7 @@ function onboarding() {
         <div className="flex flex-col items-center justify-center mt-5 gap-6">
           <Input label={"Display Name"} state={displayName} setState={setDisplayName} />
           <Input label={"Email"} state={userEmailId} setState={setUserEmailId}/>
+          <Input type="password" label={"Password"} setState={setUserPassword} state={userPassword}/>
           <div className="flex items-center justify-center">
           <button className="flex items-center justify-center gap-7 bg-search-input-container-background p-5 rounded-lg" onClick={handleClickCreateProfile}>Create Profile</button>
           </div>

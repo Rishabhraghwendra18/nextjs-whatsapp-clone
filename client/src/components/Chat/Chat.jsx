@@ -4,6 +4,7 @@ import ChatHeader from "./ChatHeader";
 import MessageBar from "./MessageBar";
 import ChatContainer from "./ChatContainer";
 import { getMessage } from "../../services/messageService";
+import Empty from "../Empty";
 
 function Chat() {
   const loggedInUserEmail = useSelector(state=>state.loggedInUser.emailId);
@@ -46,7 +47,7 @@ function Chat() {
     <ChatHeader/>
     </div>
     <div className="flex-1">
-    <ChatContainer userAllMessages={userAllMessages}/>
+    {selectedChatUser?.email ?<ChatContainer userAllMessages={userAllMessages}/>:<Empty/>}
     </div>
     <div className="flex-none">
     <MessageBar setUserAllMessages={setUserAllMessages}/>

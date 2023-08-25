@@ -3,14 +3,14 @@ import { getNeo4JInstance } from "../utils/Neo4j.js";
 
 export async function checkUser(req, res, next) {
   try {
-    const { email } = req.body;
-    if (!email) {
-      return res.json({ msg: "Email is required", status: false });
+    const { email,password } = req.body;
+    if (!email || !password) {
+      return res.json({ msg: "Email or Password is required", status: false });
     }
     const neo4j = getNeo4JInstance();
     const { records } = await neo4j.executeQuery(
-      "MATCH (user:USER {email:$email}) RETURN COUNT(user)>0 AS node_exists",
-      { email }
+      "MATCH (user:USER {email:$email,password:$password}) RETURN COUNT(user)>0 AS node_exists",
+      { email,password }
     );
     const doesExist = records[0].get("node_exists");
     if (!doesExist) {
@@ -25,7 +25,7 @@ export async function checkUser(req, res, next) {
 
 export async function createProfile(req, res, next) {
   try {
-    const { email, name, image, status } = req.body;
+    const { email,password,name, image, status } = req.body;
     if (!email || !name) {
       return res.json({
         messagge: "Please provide email or name",
@@ -34,8 +34,8 @@ export async function createProfile(req, res, next) {
     }
     const neo4j = getNeo4JInstance();
     await neo4j.executeQuery(
-      "CREATE (:USER {name: $name,email:$email,image:$image,status:$status})",
-      { name, email, image, status }
+      "CREATE (:USER {name: $name,email:$email,image:$image,status:$status,password:$password})",
+      { name, email, image, status,password }
     );
     res.json({
       message: "User profile created successfully",
@@ -56,7 +56,6 @@ export async function getUser(req, res) {
       message: "Please provide email id for user to search",
       status: 400,
     });
-    return;
   }
   try {
     const neo4j = getNeo4JInstance();

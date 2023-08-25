@@ -3,6 +3,7 @@ import Image from "next/image";
 import {MdOutlineMail} from 'react-icons/md';
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useSelector, useDispatch } from 'react-redux'
+import sha256 from "sha256";
 import {setLoggedInUser} from "../store/loginSlice";
 import { firebaseAuth } from "../utils/FirebaseConfig";
 import axios from "axios";
@@ -19,17 +20,18 @@ function login() {
   const dispatch = useDispatch();
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [userEmailId, setUserEmailId] = useState('');
+  const [userPassword, setUserPassword] = useState('');
   useEffect(()=>{
     const socket = io(process.env.NEXT_PUBLIC_SERVER_HOST);
     dispatch(addSocket(socket));
   },[])
   const handleLogin = async ()=>{
-    
     // const provider = new GoogleAuthProvider();
     // const {user :{displayName:name,email,photoURL:profileImage}} = await signInWithPopup(firebaseAuth,provider);
     dispatch(setLoggedInUser(userEmailId));
     let payload = {
-     email:userEmailId
+     email:userEmailId,
+     password:sha256(userPassword)
     }
     try {
       if(userEmailId){
@@ -61,7 +63,8 @@ function login() {
         <Modal setModalOpen={setLoginModalOpen} className={'w-[700px]'}>
           <div className="flex flex-col items-center justify-center gap-3 w-full">
           <h2 className="text-xl">Log In</h2>
-          <Input label={"Email"} setState={setUserEmailId} state={userEmailId}/>
+          <Input type="email" label={"Email"} setState={setUserEmailId} state={userEmailId}/>
+          <Input type="password" label={"Password"} setState={setUserPassword} state={userPassword}/>
           <button className="flex items-center justify-center gap-7 bg-panel-header-background p-5 rounded-lg" onClick={handleLogin}>Login</button>
           </div>
         </Modal>}
